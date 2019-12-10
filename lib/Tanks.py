@@ -28,13 +28,10 @@ class Tank(pygame.sprite.Sprite):
         # 射击相关
         self.shootRate = 0.6  # 射击的概率
         self.isShooting = False  # 子弹是否在运行中o
-        self.bullet = Bullet(self)
+        self.bullet = Bullet()
         # 碰撞
         self.hit = False  # 是否碰到墙或者坦克
         self.map = None
-        self.over = True
-        self.tempDir = 1
-        self.ts = 0
 
     # 画图
     def drawImage(self, image, rect, left, top):
@@ -133,19 +130,23 @@ class Tank(pygame.sprite.Sprite):
 
     def destroy(self):
         self.isDestroyed = True
+        tempDir = 1
+        ts = 0
         # 爆炸效果
-        if self.over:
-            temp = int(self.ts // 3)
+        flag = True
+        # 爆炸效果
+        if flag:
+            temp = int(ts // 3)
             boom_image = pygame.image.load(BOOM_IMAGE)
             boom_rect = pygame.Rect(POS['boom'])
             boom_rect.left = 65 * temp
             boom = boom_image.subsurface(boom_rect)
             screen.blit(boom, (self.rect.x + (65 - 48) // 2, self.rect.y + (65 - 48) // 2))
-            self.ts += self.tempDir
-            if self.ts > 4 * 3 - 3:
-                self.tempDir = -1
-            if self.ts <= 0:
-                self.over = False
+            ts += tempDir
+            if ts > 4 * 3 - 3:
+                tempDir = -1
+            if ts <= 0:
+                flag = False
 
     def update(self):
         self.draw()

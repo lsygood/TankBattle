@@ -3,7 +3,7 @@ from lib.Const import *
 class Bullet(pygame.sprite.Sprite):
     """游戏精灵"""
 
-    def __init__(self, tank, speed=3):
+    def __init__(self, speed=3):
         super().__init__()
         # 子弹图片
         self.bullets_image = ['./assets/images/bullet/bullet_up.png',
@@ -19,8 +19,6 @@ class Bullet(pygame.sprite.Sprite):
         self.stronger = False # 是否加强
         self.isDestroyed = False # 是否摧毁
         self.hit = False # 是否碰撞
-        # 坦克对象
-        self.tank = tank
 
     def move(self):
         # 改变图片
