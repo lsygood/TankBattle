@@ -109,7 +109,8 @@ class TankGame(object):
                         map.kill()
                         self.isGameOver = True
                     # 销毁
-                    if map not in (self.map.grassGroup or self.map.waterGroup):
+                    if (map not in self.map.grassGroup) and (map not in self.map.waterGroup) and\
+                        (map not in self.map.iceGroup):
                         bullet.hit = True
                         self.bullet_group.remove(bullet)
                         break

@@ -98,11 +98,10 @@ class Tank(pygame.sprite.Sprite):
                     self.hit = True
 
                 for map in self.map.mapGroup:
-                    if map not in (self.map.grassGroup or self.map.iceGroup):
+                    if (map not in self.map.grassGroup) and (map not in self.map.iceGroup):
                         if pygame.sprite.collide_rect(self, map):
-                            self.hit = True
-                            break
-
+                                self.hit = True
+                                break
     # 射击
     def shoot(self):
         if self.isAI and self.enemyStopTime > 0:

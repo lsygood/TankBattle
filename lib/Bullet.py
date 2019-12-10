@@ -51,7 +51,6 @@ class Bullet(pygame.sprite.Sprite):
             # 子弹碰撞后销毁
             else:
                 self.destroy()
-                # TODO 爆炸特效 和 音效
                 if not self.tank.isAI:
                     enemyCrack.play()
             self.hit = False
