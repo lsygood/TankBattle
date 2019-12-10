@@ -117,8 +117,7 @@ class Map():
                 self.initMap()
                 # 显示关卡数
                 self.drawImage(NUM_IMAGE, POS["stageLevel"],
-                               POS["stageLevel"][0], POS["stageLevel"][1],
-                               266, 315)
+                               POS["stageLevel"][0], POS["stageLevel"][1], 266, 315)
                 self.drawNum(380, 315)
 
             elif self.temp == 324 + 720:
@@ -129,8 +128,7 @@ class Map():
             else:
                 # 灰屏效果(设置屏幕背景为灰色)
                 screen.fill((127, 127, 127), (0, self.temp, 688, 18))
-                screen.fill((127, 127, 127),
-                            (0, 624 - self.temp - 18, 688, 18))
+                screen.fill((127, 127, 127), (0, 624 - self.temp - 18, 688, 18))
         else:
             self.isReady = True
         self.temp += 18 * self.dir
@@ -203,7 +201,7 @@ class Map():
     def drawRight(self, playerNum, player1, player2, enemyNum):
         # 敌人数
         x = 640
-        y = 34 // 2
+        y = 17
         for i in range(1, enemyNum):
             tempX = x
             tempY = y + int((i + 1) / 2) * 16
@@ -215,20 +213,20 @@ class Map():
         self.drawImage(FLAG_IMAGE,
                        POS["score"],
                        60 + POS["score"][0], POS["score"][1],
-                       640, 464 + 64)
+                       640, 528)
 
-        self.drawNum(640, 496 + 64)
+        self.drawNum(640, 560)
 
         # 1P
         self.drawImage(FLAG_IMAGE,
                        POS["score"],
                        POS["score"][0], POS["score"][1],
-                       640, 368 - 32)
+                       640, 336)
 
         self.drawImage(NUM_IMAGE,
                        POS["num"],
                        POS["num"][0] + player1 * 14, POS["num"][1],
-                       658, 384 - 32)
+                       658, 352)
         # 2P
         self.drawImage(FLAG_IMAGE,
                        POS["score"],

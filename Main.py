@@ -115,6 +115,7 @@ class TankGame(object):
                         bullet.hit = True
                         self.bullet_group.remove(bullet)
                         break
+
         # 碰撞
         for enemyTank in self.enemyTank_group:
             for playerTank in self.player_tank_group:
@@ -131,31 +132,30 @@ class TankGame(object):
                             self.props_group.add(enemyTank.prop)
                             enemyTank.is_red = False
                         # 攻击
-                        if not playerTank.bullet.hit:
+                        if not playerTank.bullet.isDestroyed:
                             enemyTank.lives -= 1
-                        # 摧毁坦克
+                            playerTank.bullet.hit = True
+                            self.bullet_group.remove(playerTank.bullet)
+
+                        # 摧毁敌人坦克
                         if enemyTank.lives < 0:
                             enemyTank.destroy()
                             self.enemyTank_group.remove(enemyTank)
                             self.appearEnemy -= 1
 
-                        playerTank.bullet.hit = True
-                        self.bullet_group.remove(playerTank.bullet)
-
                 # 敌人攻击玩家
                 if pygame.sprite.collide_rect(enemyTank.bullet, playerTank):
 
                     if playerTank.lives > 0 and not playerTank.isProtected:
-                        # 摧毁坦克
-                        if not enemyTank.bullet.hit:
+                        # 摧毁玩家坦克
+                        if not enemyTank.bullet.isDestroyed:
                             playerTank.destroy()
+                            enemyTank.bullet.hit = True
+                            self.bullet_group.remove(enemyTank.bullet)
 
                     # 游戏结束
                     if playerTank.lives < 0:
                         self.isGameOver = True
-
-                    enemyTank.bullet.hit = True
-                    self.bullet_group.remove(enemyTank.bullet)
 
                 # 道具
                 if self.props_group:

@@ -41,21 +41,12 @@ class Bullet(pygame.sprite.Sprite):
         self.isDestroyed = True
 
     def isHit(self):
-        # 子弹被坠毁
-        if self.isDestroyed:
-            return
-        # 碰撞检测
-        if not self.isDestroyed:
-            if not self.hit:
-                # 边缘检测
-                if self.rect.x >= 612 or self.rect.y >= 612 or self.rect.x < 0 or self.rect.y < 0:
-                    self.isDestroyed = True
-            # 子弹碰撞后销毁
-            else:
-                self.destroy()
-                # 音效
-                if not self.tank.isAI:
-                    enemyCrack.play()
+        # 边缘检测
+        if self.rect.x >= 612 or self.rect.y >= 612 or self.rect.x < 0 or self.rect.y < 0:
+            self.destroy()
+        # 子弹碰撞后销毁
+        if self.hit:
+            self.destroy()
             self.hit = False
 
     def update(self):
