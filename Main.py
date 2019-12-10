@@ -15,7 +15,7 @@ class TankGame(object):
         self.appearEnemy = 0  # 出现敌人数
         self.maxAppearEnemy = 5  # 最大出现敌人数
         self.level = 0  # 关卡数
-        self.mapNum = 20  # 地图总数
+        self.mapNum = 21  # 地图总数
         self.overY = 640
         self.isGameOver = False  # 游戏结束标志
         self.__init_sprites()  # 精灵组
