@@ -11,9 +11,9 @@ class Bullet(pygame.sprite.Sprite):
                               './assets/images/bullet/bullet_left.png',
                               './assets/images/bullet/bullet_right.png']
         # 加载图片
+        self.dir = UP # 方向
         self.image = pygame.image.load(self.bullets_image[self.dir])
         self.rect = self.image.get_rect()
-        self.dir = UP # 方向
         self.size = 12 # 大小
         self.speed = speed # 速度
         self.stronger = False # 是否加强
