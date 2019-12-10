@@ -29,24 +29,30 @@ class Prop(pygame.sprite.Sprite):
         self.isDestroyed = False
         self.hit = False
         # 存在时间
-        self.time = 1000
+        self.times = 1000
         self.kind = random.randint(0, 6)
+        # 加载图片
         self.image = pygame.image.load(self.props[self.kind])
         self.rect =  self.rect = self.image.get_rect()
+        # 随机坐标
         self.rect.x, self.rect.y = random.randint(100, 500), random.randint(100, 500)
 
     # 生成道具
     def draw(self):
-        if self.time > 0 and not self.isDestroyed:
+        if self.times > 0 and not self.isDestroyed:
             self.isDestroyed = False
             self.isHit()
         else:
             self.isDestroyed = True
-        self.time -= 1
+        # 定时
+        self.times -= 1
 
     def isHit(self):
         if self.hit:
-            self.isDestroyed = True
+            self.destroy()
+
+    def destroy(self):
+        self.isDestroyed = True
 
     def update(self):
         self.draw()

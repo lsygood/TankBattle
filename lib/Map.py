@@ -1,5 +1,5 @@
 from lib.Const import *
-from lib.MapLevel import *
+
 
 class Base(pygame.sprite.Sprite):
     """游戏精灵"""
@@ -122,7 +122,7 @@ class Map():
                 self.drawNum(380, 315)
 
             elif self.temp == 324 + 720:
-                # 600即调用了720/15次，主要用来停顿
+                # 720即调用了720/15次，主要用来停顿
                 self.temp = 324
                 self.dir = -1
                 self.playAudio('./assets/audio/start.ogg')
@@ -140,13 +140,14 @@ class Map():
         self.setLevel(self.level)
         self.drawMap()
 
+    # 设置关卡
     def setLevel(self, level):
         self.level = level
         # 加载地图数组
         self.mapLevel = eval("map" + str(self.level))
 
+    # 绘制地图
     def drawMap(self):
-        # TODO 优化
         # 遍历地图数组并添加到各自的组和地图组
         for i in range(0, 26):
             for j in range(0, 26):
@@ -181,21 +182,24 @@ class Map():
                     self.homeGroup.add(self.home)
                     self.mapGroup.add(self.homeGroup)
 
+    # 保护家
     def protect_home(self):
         if self.protect_time > 0:
-            for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11), (25, 14)]:
+            for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11),
+                         (25, 14)]:
                 self.iron = IRON()
                 self.iron.rect.x, self.iron.rect.y = j * 24, i * 24
                 self.ironGroup.add(self.iron)
                 self.mapGroup.add(self.ironGroup)
         else:
-            for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11), (25, 14)]:
+            for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11),
+                         (25, 14)]:
                 self.wall = WALL()
                 self.wall.rect.x, self.wall.rect.y = j * 24, i * 24
                 self.wallGroup.add(self.wall)
                 self.mapGroup.add(self.wallGroup)
 
-    # 画地图右侧
+    # 画地图右侧数据
     def drawRight(self, playerNum, player1, player2, enemyNum):
         # 敌人数
         x = 640

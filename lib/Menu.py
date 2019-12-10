@@ -37,6 +37,7 @@ class Menu(Base):
         self.select_tank_group.add(self.select_tank)
 
     def next(self, n):
+        # 菜单选择
         self.playerNum += n
         if self.playerNum > 2:
             self.playerNum = 1

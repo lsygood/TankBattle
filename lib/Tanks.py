@@ -15,10 +15,7 @@ class Tank(pygame.sprite.Sprite):
         # 坦克相关
         self.lives = 0  # 生命
         self.isDestroyed = False  # 是否被摧毁
-        self.enemyStopTime = 0
-        # 坦克位置记录
-        self.tempX = 0
-        self.tempY = 0
+        self.enemyStopTime = 0 # 坦克停止时间
         # 移动相关
         self.dir = UP  # 方向：0:上 1:下 2:左 3:右
         self.speed = speed  # 坦克的速度
@@ -64,8 +61,9 @@ class Tank(pygame.sprite.Sprite):
         if self.isAI and self.enemyStopTime > 0:
             return
 
-        self.tempX = self.rect.x
-        self.tempY = self.rect.y
+        # 记录坐标
+        tempX = self.rect.x
+        tempY = self.rect.y
 
         if self.isAI:
             self.frame += 1
@@ -82,21 +80,24 @@ class Tank(pygame.sprite.Sprite):
         elif self.dir == LEFT:
             self.rect.x -= self.speed
 
+        # 碰撞检测
         self.isHit()
 
+        # 碰撞后还原坐标
         if self.hit:
-            self.rect.x = self.tempX
-            self.rect.y = self.tempY
+            self.rect.x = tempX
+            self.rect.y = tempY
             if self.isAI:
-                self.dir = random.randint(0, 3)
+                self.dir = random.randint(0, 3) # 随机方向
             self.hit = False
 
     def isHit(self):
         if not self.isDestroyed:
             if not self.hit:
+                # 地图边缘检测
                 if self.rect.y > 576 or self.rect.x > 576 or self.rect.x < 0 or self.rect.y < 0:
                     self.hit = True
-
+                # 地图碰撞检测
                 for map in self.map.mapGroup:
                     if (map not in self.map.grassGroup) and (map not in self.map.iceGroup):
                         if pygame.sprite.collide_rect(self, map):
@@ -132,6 +133,7 @@ class Tank(pygame.sprite.Sprite):
 
     def destroy(self):
         self.isDestroyed = True
+        # 爆炸效果
         if self.over:
             temp = int(self.ts // 3)
             boom_image = pygame.image.load(BOOM_IMAGE)
@@ -230,9 +232,11 @@ class PlayerTank(Tank):
 
     def destroy(self):
         super().destroy()
+        # 音效
         playerCrack.play()
 
     def reload(self):
+        # 被摧毁后重新载入
         if self.isDestroyed and self.lives > 0:
             self.dir = UP
             self.rect.x, self.rect.y = 195, 576
@@ -290,7 +294,7 @@ class EnemyTank(Tank):
         self.speed = max(3 - self.kind, 1)
         # 是否携带食物(红色的坦克携带食物)
         self.is_red = random.choice((True, False, False, False, False))
-        # 同一种类的坦克具有不同的颜色, 红色的坦克比同类坦克多一点血量
+        # 同一种类的坦克具有不同的颜色
         if self.is_red:
             self.lives = 3
             # 道具
@@ -315,9 +319,10 @@ class EnemyTank(Tank):
             else:
                 self.drawImage(self.enemy_list[self.kind][self.lives],
                                POS['tank'], 48, self.dir * 48)
-            # 以一定的概率射击
+
             if self.times % 50 == 0:
                 r = random.random()
+                # 以一定的概率射击
                 if r < self.shootRate:
                     self.shoot()
                 self.times = 0
@@ -325,6 +330,7 @@ class EnemyTank(Tank):
 
     def destroy(self):
         super().destroy()
+        # 音效
         enemyCrack.play()
 
     def update(self):

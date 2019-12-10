@@ -48,6 +48,7 @@ class TankGame(object):
         self.bullet_group = pygame.sprite.Group()
 
     def __startMenu(self):
+        # 初始化
         screen.fill((0, 0, 0))
         self.isGameOver = False
         self.level = 0
@@ -71,7 +72,7 @@ class TankGame(object):
             self.tanks_group.add(self.player2_tank)
             self.bullet_group.add(self.player2_tank.bullet)
 
-        # 敌人子弹
+        # 添加敌人子弹
         for enemyTank in self.enemyTank_group:
             self.bullet_group.add(enemyTank.bullet)
 
@@ -109,8 +110,8 @@ class TankGame(object):
                         map.kill()
                         self.isGameOver = True
                     # 销毁
-                    if (map not in self.map.grassGroup) and (map not in self.map.waterGroup) and\
-                        (map not in self.map.iceGroup):
+                    if (map not in self.map.grassGroup) and (map not in self.map.waterGroup) and \
+                            (map not in self.map.iceGroup):
                         bullet.hit = True
                         self.bullet_group.remove(bullet)
                         break
@@ -125,14 +126,14 @@ class TankGame(object):
                 # 玩家攻击敌人
                 if enemyTank.isAppear:
                     if pygame.sprite.collide_rect(playerTank.bullet, enemyTank):
-
+                        # 携带道具
                         if enemyTank.is_red:
                             self.props_group.add(enemyTank.prop)
                             enemyTank.is_red = False
-
+                        # 攻击
                         if not playerTank.bullet.hit:
                             enemyTank.lives -= 1
-
+                        # 摧毁坦克
                         if enemyTank.lives < 0:
                             enemyTank.destroy()
                             self.enemyTank_group.remove(enemyTank)
@@ -145,9 +146,11 @@ class TankGame(object):
                 if pygame.sprite.collide_rect(enemyTank.bullet, playerTank):
 
                     if playerTank.lives > 0 and not playerTank.isProtected:
+                        # 摧毁坦克
                         if not enemyTank.bullet.hit:
                             playerTank.destroy()
 
+                    # 游戏结束
                     if playerTank.lives < 0:
                         self.isGameOver = True
 
@@ -214,7 +217,7 @@ class TankGame(object):
         if self.menu.playerNum == 1:
             self.player2_tank.lives = 0
 
-        # 切换地图清除所有
+        # 切换地图清除所有精灵
         self.__killSprites(self.map.mapGroup)
         self.__killSprites(self.tanks_group)
         self.__killSprites(self.bullet_group)
@@ -227,7 +230,7 @@ class TankGame(object):
         if self.menu.playerNum == 2:
             self.player2_tank.init()
 
-        # 初始化敌人
+        # 初始化敌人(首先加载3个敌人)
         for i in range(0, 3):
             enemyTank = EnemyTank(i)
             enemyTank.map = self.map
@@ -257,6 +260,7 @@ class TankGame(object):
         elif self.gameState == GAME_STATE['GAME_INIT']:
             # 初始化
             if not self.map.isReady:
+                # 初始化地图
                 self.map.drawStage()
             else:
                 self.gameState = GAME_STATE['GAME_START']
@@ -267,7 +271,7 @@ class TankGame(object):
             if self.isGameOver or (self.player1_tank.lives <= 0 and
                                    self.player2_tank.lives <= 0):
                 self.gameState = GAME_STATE['GAME_OVER']
-            # 消灭所有坦克
+            # 消灭所有坦克 进入下一关
             if self.appearEnemy == self.maxEnemy and len(self.enemyTank_group) == 0:
                 self.gameState = GAME_STATE['GAME_WIN']
 
@@ -280,23 +284,24 @@ class TankGame(object):
 
     def __event_handler(self):
         for e in pygame.event.get():
+            # 退出事件
             if e.type == pygame.QUIT:
                 pygame.quit()
                 exit(0)
 
             if self.gameState == GAME_STATE['GAME_START']:
-
+                # 创建敌人事件
                 if e.type == CREATE_ENEMY_EVENT:
                     # 创建敌人
                     if self.appearEnemy < self.maxAppearEnemy and self.maxEnemy > 0:
                         enemyTank = EnemyTank()
                         enemyTank.map = self.map
-                        if not pygame.sprite.spritecollide(enemyTank,self.tanks_group,False):
+                        if not pygame.sprite.spritecollide(enemyTank, self.tanks_group, False):
                             self.appearEnemy += 1
                             self.maxEnemy -= 1
                             self.enemyTank_group.add(enemyTank)
                             self.tanks_group.add(enemyTank)
-                            
+                # 家保护事件
                 if self.map.protect_time > 0:
                     if e.type == PROTECT_HOME_EVENT:
                         self.map.protect_time -= 1
@@ -309,7 +314,6 @@ class TankGame(object):
                         if e.key == pygame.K_w or e.key == pygame.K_s or e.key == \
                                 pygame.K_a or e.key == pygame.K_d:
                             self.player1_tank.isMoving = False
-
                     if self.player2_tank.lives > 0:
                         if e.key == pygame.K_UP or e.key == pygame.K_DOWN or e.key == \
                                 pygame.K_LEFT or e.key == pygame.K_RIGHT:
@@ -320,13 +324,17 @@ class TankGame(object):
 
         if self.gameState == GAME_STATE['GAME_MENU']:
             if key[pygame.K_RETURN]:
+                # 进入游戏
                 self.__level()
             else:
+                # 选择
                 if key[pygame.K_UP]:
                     self.menu.next(1)
                 elif key[pygame.K_DOWN]:
                     self.menu.next(-1)
         elif self.gameState == GAME_STATE['GAME_START']:
+
+            # 玩家按键检测
             if self.player1_tank.lives > 0:
                 if key[pygame.K_w]:
                     self.player1_tank.dir = UP
