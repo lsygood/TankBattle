@@ -15,7 +15,7 @@ class Tank(pygame.sprite.Sprite):
         # 坦克相关
         self.lives = 0  # 生命
         self.isDestroyed = False  # 是否被摧毁
-        self.enemyStopTime = 0 # 坦克停止时间
+        self.enemyStopTime = 0  # 坦克停止时间
         # 移动相关
         self.dir = UP  # 方向：0:上 1:下 2:左 3:右
         self.speed = speed  # 坦克的速度
@@ -84,9 +84,9 @@ class Tank(pygame.sprite.Sprite):
         if self.hit:
             self.rect.x = tempX
             self.rect.y = tempY
-            if self.isAI:
-                self.dir = random.randint(0, 3) # 随机方向
             self.hit = False
+            if self.isAI:
+                self.dir = random.randint(0, 3)  # 随机方向
 
     def isHit(self):
         if not self.isDestroyed:
@@ -98,8 +98,9 @@ class Tank(pygame.sprite.Sprite):
                 for map in self.map.mapGroup:
                     if (map not in self.map.grassGroup) and (map not in self.map.iceGroup):
                         if pygame.sprite.collide_rect(self, map):
-                                self.hit = True
-                                break
+                            self.hit = True
+                            break
+
     # 射击
     def shoot(self):
         if self.isAI and self.enemyStopTime > 0:
