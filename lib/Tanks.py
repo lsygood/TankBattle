@@ -182,8 +182,12 @@ class PlayerTank(Tank):
     def init(self):
         self.dir = UP
         self.lives = 3  # 生命值
+        self.color = 0  # 等级
+        self.speed = 3  # 速度
+        self.isMoving = False
         self.isProtected = True  # 是否受保护
         self.protectedTime = 500  # 保护时间
+        self.bullet.stronger = False
         self.rect.x, self.rect.y = 195, 576
         if self.player == 2:
             self.rect.x, self.rect.y = 387, 576
@@ -220,15 +224,15 @@ class PlayerTank(Tank):
             self.color = 0
 
         if self.color == 0:
-            self.speed = 1
+            self.speed = 3
             self.bullet.speed = 3
             self.bullet.stronger = False
         elif self.color == 2:
-            self.speed = 2
+            self.speed = 6
             self.bullet.speed = 6
             self.bullet.stronger = False
         elif self.color == 3:
-            self.speed = 3
+            self.speed = 6
             self.bullet.speed = 9
             self.bullet.stronger = False
 
@@ -245,6 +249,7 @@ class PlayerTank(Tank):
             if self.player == 2:
                 self.rect.x, self.rect.y = 387, 576
             self.lives -= 1
+            self.level(-1) # 等级降低
             self.isProtected = True  # 是否受保护
             self.protectedTime = 500  # 保护时间
             self.isDestroyed = False

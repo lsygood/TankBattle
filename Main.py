@@ -20,11 +20,8 @@ class TankGame(object):
         self.isGameOver = False  # 游戏结束标志
         self.__init_sprites()  # 精灵组
         self.gameState = 0  # 游戏状态
-        self.homeProtectedTime = -1
         # 创建敌人事件
         pygame.time.set_timer(CREATE_ENEMY_EVENT, 2000)
-        # 保护家
-        pygame.time.set_timer(PROTECT_HOME_EVENT, 1000)
 
     def __init_sprites(self):
         # 游戏开始界面
@@ -87,7 +84,7 @@ class TankGame(object):
         # 画所有子弹
         self.bullet_group.update()
         self.bullet_group.draw(screen)
-        # 道具
+        # 画所有道具
         self.props_group.update()
         self.props_group.draw(screen)
 
@@ -126,22 +123,23 @@ class TankGame(object):
 
                 # 玩家攻击敌人
                 if enemyTank.isAppear:
-                    if pygame.sprite.collide_rect(playerTank.bullet, enemyTank):
-                        # 携带道具
-                        if enemyTank.is_red:
-                            self.props_group.add(enemyTank.prop)
-                            enemyTank.is_red = False
-                        # 攻击
-                        if not playerTank.bullet.isDestroyed:
-                            enemyTank.lives -= 1
-                            playerTank.bullet.hit = True
-                            self.bullet_group.remove(playerTank.bullet)
+                    if not enemyTank.isDestroyed:
+                        if pygame.sprite.collide_rect(playerTank.bullet, enemyTank):
+                            # 携带道具
+                            if enemyTank.is_red:
+                                self.props_group.add(enemyTank.prop)
+                                enemyTank.is_red = False
+                            # 攻击
+                            if not playerTank.bullet.isDestroyed:
+                                enemyTank.lives -= 1
+                                playerTank.bullet.hit = True
+                                self.bullet_group.remove(playerTank.bullet)
 
-                        # 摧毁敌人坦克
-                        if enemyTank.lives < 0:
-                            enemyTank.destroy()
-                            self.enemyTank_group.remove(enemyTank)
-                            self.appearEnemy -= 1
+                            # 摧毁敌人坦克
+                            if enemyTank.lives < 0:
+                                enemyTank.destroy()
+                                self.enemyTank_group.remove(enemyTank)
+                                self.appearEnemy -= 1
 
                 # 敌人攻击玩家
                 if pygame.sprite.collide_rect(enemyTank.bullet, playerTank):
@@ -301,11 +299,6 @@ class TankGame(object):
                             self.maxEnemy -= 1
                             self.enemyTank_group.add(enemyTank)
                             self.tanks_group.add(enemyTank)
-                # 家保护事件
-                if self.map.protect_time > 0:
-                    if e.type == PROTECT_HOME_EVENT:
-                        self.map.protect_time -= 1
-                        self.map.protect_home()
 
                 # 松开方向键，坦克停止移动，修改坦克的开关状态
                 if e.type == pygame.KEYUP:
@@ -392,7 +385,7 @@ class TankGame(object):
             # 碰撞检测
             self.__check_collision()
             # 更新显示
-            pygame.display.update()
+            pygame.display.flip()
 
 
 if __name__ == '__main__':
