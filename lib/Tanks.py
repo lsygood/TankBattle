@@ -27,8 +27,8 @@ class Tank(pygame.sprite.Sprite):
         self.moving = True
         # 射击相关
         self.shootRate = 0.6  # 射击的概率
-        self.isShooting = False  # 子弹是否在运行中o
-        self.bullet = Bullet()
+        self.isShooting = False  # 子弹是否在运行中
+        self.bullet = Bullet()  # 子弹对象
         # 碰撞
         self.hit = False  # 是否碰到墙或者坦克
         # 地图对象
@@ -47,7 +47,7 @@ class Tank(pygame.sprite.Sprite):
         if self.time == 5:
             self.time = 0
             self.moving = not self.moving
-
+        # 敌人暂停
         if self.isAI and self.enemyStopTime > 0:
             self.enemyStopTime -= 1
             self.moving = False
@@ -273,7 +273,6 @@ class EnemyTank(Tank):
             './assets/images/enemyTank/enemy_1_0.png', POS['tank'], speed=0)
         self.times = 0  # 定时
         self.isAI = True  # AI
-        self.isMoving = True  # 自动移动
         # 出生
         if x is None:
             self.x = random.randint(0, 2)
@@ -326,6 +325,7 @@ class EnemyTank(Tank):
                 self.times = 0
         else:
             super().draw()
+            self.isMoving = True  # 自动移动
             if self.moving and self.isMoving:
                 self.drawImage(self.enemy_list[self.kind][self.lives],
                                POS['tank'], 0, self.dir * 48)
@@ -334,9 +334,10 @@ class EnemyTank(Tank):
                                POS['tank'], 48, self.dir * 48)
 
             if self.times % 50 == 0:
+                self.isMoving = False
                 r = random.random()
                 # 以一定的概率射击
-                if r < self.shootRate:
+                if r < self.shootRate and not self.isMoving:
                     self.shoot()
                 self.times = 0
                 self.isShooting = False

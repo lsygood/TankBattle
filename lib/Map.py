@@ -1,5 +1,5 @@
 from lib.Const import *
-
+from lib.MapLevel import *
 
 class Base(pygame.sprite.Sprite):
     """游戏精灵"""
