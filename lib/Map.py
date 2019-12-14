@@ -1,5 +1,5 @@
 from lib.Const import *
-from lib.MapLevel import *
+
 
 class Base(pygame.sprite.Sprite):
     """游戏精灵"""
@@ -61,7 +61,6 @@ class Map():
         self.waterGroup = pygame.sprite.Group()
         self.iceGroup = pygame.sprite.Group()
         self.homeGroup = pygame.sprite.Group()
-        self.anotherHomeGroup = pygame.sprite.Group()
         self.mapGroup = pygame.sprite.Group()
 
     # 画一帧的图片

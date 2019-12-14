@@ -29,8 +29,6 @@ class TankGame(object):
         self.menu_group = pygame.sprite.Group()
         # 地图
         self.map = Map()
-        # 所有坦克组
-        self.tanks_group = pygame.sprite.Group()
         # 敌人坦克
         self.enemyTank_group = pygame.sprite.Group()
         # 玩家坦克
@@ -62,11 +60,11 @@ class TankGame(object):
         # 玩家
         if self.player1_tank.lives > 0:
             self.player_tank_group.add(self.player1_tank)
-            self.tanks_group.add(self.player1_tank)
+            tanks_group.add(self.player1_tank)
             self.bullet_group.add(self.player1_tank.bullet)
         if self.player2_tank.lives > 0:
             self.player_tank_group.add(self.player2_tank)
-            self.tanks_group.add(self.player2_tank)
+            tanks_group.add(self.player2_tank)
             self.bullet_group.add(self.player2_tank.bullet)
 
         # 添加敌人子弹
@@ -79,8 +77,8 @@ class TankGame(object):
         self.map.drawRight(self.menu.playerNum, self.player1_tank.lives,
                            self.player2_tank.lives, self.maxEnemy)
         # 画所有坦克
-        self.tanks_group.update()
-        self.tanks_group.draw(screen)
+        tanks_group.update()
+        tanks_group.draw(screen)
         # 画所有子弹
         self.bullet_group.update()
         self.bullet_group.draw(screen)
@@ -217,7 +215,7 @@ class TankGame(object):
 
         # 切换地图清除所有精灵
         self.__killSprites(self.map.mapGroup)
-        self.__killSprites(self.tanks_group)
+        self.__killSprites(tanks_group)
         self.__killSprites(self.bullet_group)
 
         # 初始化数据
@@ -235,7 +233,7 @@ class TankGame(object):
             self.appearEnemy += 1
             self.maxEnemy -= 1
             self.enemyTank_group.add(enemyTank)
-            self.tanks_group.add(enemyTank)
+            tanks_group.add(enemyTank)
 
         self.gameState = GAME_STATE['GAME_INIT']
 
@@ -294,11 +292,11 @@ class TankGame(object):
                     if self.appearEnemy < self.maxAppearEnemy and self.maxEnemy > 0:
                         enemyTank = EnemyTank()
                         enemyTank.map = self.map
-                        if not pygame.sprite.spritecollide(enemyTank, self.tanks_group, False):
+                        if not pygame.sprite.spritecollide(enemyTank, tanks_group, False):
                             self.appearEnemy += 1
                             self.maxEnemy -= 1
                             self.enemyTank_group.add(enemyTank)
-                            self.tanks_group.add(enemyTank)
+                            tanks_group.add(enemyTank)
 
                 # 松开方向键，坦克停止移动，修改坦克的开关状态
                 if e.type == pygame.KEYUP:

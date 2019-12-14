@@ -31,6 +31,7 @@ class Tank(pygame.sprite.Sprite):
         self.bullet = Bullet()
         # 碰撞
         self.hit = False  # 是否碰到墙或者坦克
+        # 地图对象
         self.map = None
 
     # 画图
@@ -100,6 +101,11 @@ class Tank(pygame.sprite.Sprite):
                         if pygame.sprite.collide_rect(self, map):
                             self.hit = True
                             break
+                # 坦克碰撞坦克
+                tanks_group.remove(self)
+                if pygame.sprite.spritecollide(self, tanks_group, False):
+                    self.hit = True
+                tanks_group.add(self)
 
     # 射击
     def shoot(self):
@@ -249,7 +255,7 @@ class PlayerTank(Tank):
             if self.player == 2:
                 self.rect.x, self.rect.y = 387, 576
             self.lives -= 1
-            self.level(-1) # 等级降低
+            self.level(-1)  # 等级降低
             self.isProtected = True  # 是否受保护
             self.protectedTime = 500  # 保护时间
             self.isDestroyed = False
@@ -267,7 +273,7 @@ class EnemyTank(Tank):
             './assets/images/enemyTank/enemy_1_0.png', POS['tank'], speed=0)
         self.times = 0  # 定时
         self.isAI = True  # AI
-        self.isMoving = True
+        self.isMoving = True  # 自动移动
         # 出生
         if x is None:
             self.x = random.randint(0, 2)

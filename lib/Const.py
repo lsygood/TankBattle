@@ -1,6 +1,7 @@
 import pygame
 
 # 静态变量
+
 SCREEN_WIDTH = 688  # 屏幕宽
 SCREEN_HEIGHT = 624  # 屏幕高
 
@@ -61,3 +62,5 @@ UP = 0
 DOWN = 1
 LEFT = 2
 RIGHT = 3
+# 所有坦克组
+tanks_group = pygame.sprite.Group()

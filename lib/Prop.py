@@ -1,5 +1,7 @@
-from lib.Const import *
 import random
+
+from lib.Const import *
+
 
 # 食物类, 用于提升坦克能力
 
