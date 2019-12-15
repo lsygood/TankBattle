@@ -176,6 +176,7 @@ class TankGame(object):
         self.__killAll(map_Group)
         self.__killAll(tanks_group)
         self.__killAll(bullet_group)
+        self.__killAll(props_group)
 
         # 初始化数据
         self.map.init(self.level)
