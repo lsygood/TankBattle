@@ -31,8 +31,6 @@ class Tank(pygame.sprite.Sprite):
         self.bullet = Bullet()  # 子弹对象
         # 碰撞
         self.hit = False  # 是否碰到墙或者坦克
-        # 地图对象
-        self.map = None
 
     # 画图
     def drawImage(self, image, rect, left, top):
@@ -96,8 +94,8 @@ class Tank(pygame.sprite.Sprite):
                 if self.rect.y > 576 or self.rect.x > 576 or self.rect.x < 0 or self.rect.y < 0:
                     self.hit = True
                 # 地图碰撞检测
-                for map in self.map.mapGroup:
-                    if (map not in self.map.grassGroup) and (map not in self.map.iceGroup):
+                for map in map_Group:
+                    if not isinstance(map, (GRASS, ICE)):
                         if pygame.sprite.collide_rect(self, map):
                             self.hit = True
                             break
@@ -224,20 +222,18 @@ class PlayerTank(Tank):
     def level(self, l=1):
         if self.color < 3:
             self.color += l
-        if self.color > 3:
-            self.color = 3
-        elif self.color <= 0:
+        if self.color <= 0:
             self.color = 0
 
         if self.color == 0:
             self.speed = 3
             self.bullet.speed = 3
             self.bullet.stronger = False
-        elif self.color == 2:
+        elif self.color == 1:
             self.speed = 6
             self.bullet.speed = 6
             self.bullet.stronger = False
-        elif self.color == 3:
+        elif self.color == 2:
             self.speed = 6
             self.bullet.speed = 9
             self.bullet.stronger = False

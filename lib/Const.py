@@ -1,5 +1,4 @@
 import pygame
-
 # 静态变量
 
 SCREEN_WIDTH = 688  # 屏幕宽
@@ -56,7 +55,6 @@ GAME_STATE = {'GAME_MENU': 0,  # 菜单
               'GAME_START': 2,  # 开始
               'GAME_OVER': 3,  # 结束
               'GAME_WIN': 4}  # win
-
 # 坦克及子弹的四个方向
 UP = 0
 DOWN = 1
@@ -64,3 +62,9 @@ LEFT = 2
 RIGHT = 3
 # 所有坦克组
 tanks_group = pygame.sprite.Group()
+# 所有地图块
+map_Group = pygame.sprite.Group()
+# 所有子弹组
+bullet_group = pygame.sprite.Group()
+# 所有道具
+props_group = pygame.sprite.Group()

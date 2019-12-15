@@ -1,6 +1,7 @@
 from lib.Const import *
 from lib.MapLevel import *
 
+
 class Base(pygame.sprite.Sprite):
     """游戏精灵"""
 
@@ -42,7 +43,7 @@ class HOME(Base):
         super().__init__('./assets/images/home/home1.png')
 
 
-class Map():
+class Map:
 
     def __init__(self):
         self.level = 1
@@ -54,14 +55,8 @@ class Map():
         self.protect_time = 0  # 保护时间
         # 地图数组
         self.mapLevel = []
-        # 创建地图每个块的组
-        self.wallGroup = pygame.sprite.Group()
-        self.ironGroup = pygame.sprite.Group()
-        self.grassGroup = pygame.sprite.Group()
-        self.waterGroup = pygame.sprite.Group()
-        self.iceGroup = pygame.sprite.Group()
-        self.homeGroup = pygame.sprite.Group()
-        self.mapGroup = pygame.sprite.Group()
+        # 家
+        self.home = HOME()
 
     # 画一帧的图片
     def drawImage(self, resource_image, frame_image, left, top, x, y):
@@ -149,52 +144,44 @@ class Map():
         for i in range(0, 26):
             for j in range(0, 26):
                 if self.mapLevel[i][j] == MAPTYPE['WALL']:
-                    self.wall = WALL()
-                    self.wall.rect.x, self.wall.rect.y = j * 24, i * 24
-                    self.wallGroup.add(self.wall)
-                    self.mapGroup.add(self.wallGroup)
+                    wall = WALL()
+                    wall.rect.x, wall.rect.y = j * 24, i * 24
+                    map_Group.add(wall)
                 elif self.mapLevel[i][j] == MAPTYPE['IRON']:
-                    self.iron = IRON()
-                    self.iron.rect.x, self.iron.rect.y = j * 24, i * 24
-                    self.ironGroup.add(self.iron)
-                    self.mapGroup.add(self.ironGroup)
+                    iron = IRON()
+                    iron.rect.x, iron.rect.y = j * 24, i * 24
+                    map_Group.add(iron)
                 elif self.mapLevel[i][j] == MAPTYPE['WATER']:
-                    self.water = WATER()
-                    self.water.rect.x, self.water.rect.y = j * 24, i * 24
-                    self.waterGroup.add(self.water)
-                    self.mapGroup.add(self.waterGroup)
+                    water = WATER()
+                    water.rect.x, water.rect.y = j * 24, i * 24
+                    map_Group.add(water)
                 elif self.mapLevel[i][j] == MAPTYPE['ICE']:
-                    self.ice = ICE()
-                    self.ice.rect.x, self.ice.rect.y = j * 24, i * 24
-                    self.iceGroup.add(self.ice)
-                    self.mapGroup.add(self.iceGroup)
+                    ice = ICE()
+                    ice.rect.x, ice.rect.y = j * 24, i * 24
+                    map_Group.add(ice)
                 elif self.mapLevel[i][j] == MAPTYPE['GRASS']:
-                    self.grass = GRASS()
-                    self.grass.rect.x, self.grass.rect.y = j * 24, i * 24
-                    self.grassGroup.add(self.grass)
-                    self.mapGroup.add(self.grassGroup)
+                    grass = GRASS()
+                    grass.rect.x, grass.rect.y = j * 24, i * 24
+                    map_Group.add(grass)
                 elif self.mapLevel[i][j] == MAPTYPE['HOME']:
                     self.home = HOME()
                     self.home.rect.x, self.home.rect.y = j * 24, i * 24
-                    self.homeGroup.add(self.home)
-                    self.mapGroup.add(self.homeGroup)
+                    map_Group.add(self.home)
 
     # 保护家
     def protect_home(self):
         if self.protect_time > 0:
             for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11),
                          (25, 14)]:
-                self.iron = IRON()
-                self.iron.rect.x, self.iron.rect.y = j * 24, i * 24
-                self.ironGroup.add(self.iron)
-                self.mapGroup.add(self.ironGroup)
+                iron = IRON()
+                iron.rect.x, iron.rect.y = j * 24, i * 24
+                map_Group.add(iron)
         else:
             for i, j in [(23, 11), (23, 12), (23, 13), (23, 14), (24, 11), (24, 14), (25, 11),
                          (25, 14)]:
-                self.wall = WALL()
-                self.wall.rect.x, self.wall.rect.y = j * 24, i * 24
-                self.wallGroup.add(self.wall)
-                self.mapGroup.add(self.wallGroup)
+                wall = WALL()
+                wall.rect.x, wall.rect.y = j * 24, i * 24
+                map_Group.add(wall)
 
     # 画地图右侧数据
     def drawRight(self, playerNum, player1, player2, enemyNum):
