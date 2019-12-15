@@ -77,6 +77,12 @@ class TankGame(object):
         props_group.update()
         props_group.draw(screen)
 
+    @staticmethod
+    def __killAll(group):
+        for g in group:
+            g.kill()
+        group.empty()
+
     def __check_collision(self):
         # 碰撞
         for enemyTank in self.enemyTank_group:
@@ -118,7 +124,7 @@ class TankGame(object):
                             # 消灭当前所有敌人
                             if prop.kind == 0:
                                 bang.play()
-                                self.enemyTank_group.empty()
+                                self.__killAll(self.enemyTank_group)
                                 self.maxEnemy -= self.appearEnemy
                                 self.appearEnemy = 0
                             # 敌人静止
@@ -167,9 +173,9 @@ class TankGame(object):
             self.player2_tank.lives = 0
 
         # 切换地图清除所有精灵
-        map_Group.empty()
-        tanks_group.empty()
-        bullet_group.empty()
+        self.__killAll(map_Group)
+        self.__killAll(tanks_group)
+        self.__killAll(bullet_group)
 
         # 初始化数据
         self.map.init(self.level)
@@ -334,7 +340,7 @@ class TankGame(object):
             # 碰撞检测
             self.__check_collision()
             # 更新显示
-            pygame.display.flip()
+            pygame.display.update()
 
 
 if __name__ == '__main__':
