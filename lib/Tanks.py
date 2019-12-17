@@ -187,7 +187,6 @@ class PlayerTank(Tank):
         self.dir = UP
         self.lives = 3  # 生命值
         self.color = 0  # 等级
-        self.speed = 3  # 速度
         self.isMoving = False
         self.isProtected = True  # 是否受保护
         self.protectedTime = 500  # 保护时间
@@ -226,15 +225,12 @@ class PlayerTank(Tank):
             self.color = 0
 
         if self.color == 0:
-            self.speed = 3
             self.bullet.speed = 3
             self.bullet.stronger = False
         elif self.color == 1:
-            self.speed = 6
             self.bullet.speed = 6
             self.bullet.stronger = False
         elif self.color == 2:
-            self.speed = 6
             self.bullet.speed = 9
             self.bullet.stronger = False
 
