@@ -24,7 +24,7 @@ class TankGame(object):
     def __init_sprites(self):
         # 游戏开始界面
         self.menu = Menu()
-        self.menu_group = pygame.sprite.Group()
+        self.menu_group = pygame.sprite.Group(self.menu)
         # 地图
         self.map = Map()
         # 敌人坦克
@@ -39,7 +39,6 @@ class TankGame(object):
         screen.fill((0, 0, 0))
         self.level = 0
         # 游戏开始界面
-        self.menu_group.add(self.menu)
         self.menu_group.add(self.menu.select_tank_group)
         self.menu_group.update()
         self.menu_group.draw(screen)
@@ -126,6 +125,8 @@ class TankGame(object):
                                 bang.play()
                                 self.__killAll(self.enemyTank_group)
                                 self.maxEnemy -= self.appearEnemy
+                                if self.maxEnemy < 0:
+                                    self.maxEnemy = 0
                                 self.appearEnemy = 0
                             # 敌人静止
                             if prop.kind == 1:

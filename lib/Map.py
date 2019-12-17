@@ -183,7 +183,7 @@ class Map:
                 wall.rect.x, wall.rect.y = j * 24, i * 24
                 map_Group.add(wall)
 
-    # 画地图右侧数据
+    # 画地图右侧数据 玩家数据 剩余敌人数
     def drawRight(self, playerNum, player1, player2, enemyNum):
         # 敌人数
         x = 640
