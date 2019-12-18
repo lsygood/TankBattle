@@ -35,9 +35,9 @@ class Menu(Base):
     def next(self, n):
         # 菜单选择
         self.playerNum += n
-        if self.playerNum > 2:
+        if self.playerNum >= 2:
             self.playerNum = 1
-        elif self.playerNum < 1:
+        elif self.playerNum <= 1:
             self.playerNum = 2
 
     def update(self):
