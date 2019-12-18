@@ -16,7 +16,7 @@ CREATE_ENEMY_EVENT = pygame.USEREVENT
 PROTECT_HOME_EVENT = pygame.USEREVENT+1
 
 # **************图片资源*****************
-MENU_IMAGE = "./assets/images/others/menu.gif"
+MENU_IMAGE = "./assets/images/others/menu.png"
 NUM_IMAGE = "./assets/images/others/num.png"
 FLAG_IMAGE = "./assets/images/others/flag.png"
 BOOM_IMAGE = "./assets/images/others/boom.png"

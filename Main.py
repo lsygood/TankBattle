@@ -39,9 +39,11 @@ class TankGame(object):
         screen.fill((0, 0, 0))
         self.level = 0
         # 游戏开始界面
-        self.menu_group.add(self.menu.select_tank_group)
         self.menu_group.update()
         self.menu_group.draw(screen)
+        # 选择坦克
+        if self.menu.rect.y == SCREEN_RECT.y:
+            self.menu.select()
 
     def __drawAll(self):
         # 设置游戏背景
@@ -273,6 +275,7 @@ class TankGame(object):
         key = pygame.key.get_pressed()
 
         if self.gameState == GAME_STATE['GAME_MENU']:
+            # 菜单
             if key[pygame.K_RETURN]:
                 # 进入游戏
                 self.__level()
