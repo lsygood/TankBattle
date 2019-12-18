@@ -299,7 +299,7 @@ class TankGame(object):
                     self.player1_tank.dir = RIGHT
                     self.player1_tank.isMoving = True
                 if key[pygame.K_SPACE]:
-                    if not self.player1_tank.isShooting and not self.player1_tank.isMoving:
+                    if not self.player1_tank.isShooting:
                         self.player1_tank.shoot()
                     if self.player1_tank.bullet.isDestroyed:
                         self.player1_tank.isShooting = False
@@ -318,7 +318,7 @@ class TankGame(object):
                     self.player2_tank.dir = RIGHT
                     self.player2_tank.isMoving = True
                 if key[pygame.K_RETURN]:
-                    if not self.player2_tank.isShooting and not self.player2_tank.isMoving:
+                    if not self.player2_tank.isShooting:
                         self.player2_tank.shoot()
                     if self.player2_tank.bullet.isDestroyed:
                         self.player2_tank.isShooting = False
