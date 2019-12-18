@@ -135,23 +135,6 @@ class Tank(pygame.sprite.Sprite):
 
     def destroy(self):
         self.isDestroyed = True
-        tempDir = 1
-        ts = 0
-        # 爆炸效果
-        flag = True
-        # 爆炸效果
-        if flag:
-            temp = int(ts // 3)
-            boom_image = pygame.image.load(BOOM_IMAGE)
-            boom_rect = pygame.Rect(POS['boom'])
-            boom_rect.left = 65 * temp
-            boom = boom_image.subsurface(boom_rect)
-            screen.blit(boom, (self.rect.x + (65 - 48) // 2, self.rect.y + (65 - 48) // 2))
-            ts += tempDir
-            if ts > 4 * 3 - 3:
-                tempDir = -1
-            if ts <= 0:
-                flag = False
 
     def update(self):
         self.draw()
