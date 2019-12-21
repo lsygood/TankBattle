@@ -206,10 +206,8 @@ class TankGame(object):
         screen.blit(image, (-130, self.overY))
         self.overY -= 2
         if self.overY < SCREEN_HEIGHT // 2 - 150:
-            # 只有一个玩家
-            if self.menu.playerNum == 1:
-                self.player2_tank.lives = 0
             self.gameState = GAME_STATE['GAME_MENU']
+            self.overY = 640
 
     def _state_handler(self):
         if self.gameState == GAME_STATE['GAME_MENU']:
