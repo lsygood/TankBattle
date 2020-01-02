@@ -20,6 +20,7 @@ class TankGame(object):
         self.gameState = 0  # 游戏状态
         # 创建敌人事件
         pygame.time.set_timer(CREATE_ENEMY_EVENT, 2000)
+
     # 创建精灵对象
     def __init_sprites(self):
         # 游戏开始界面
@@ -33,6 +34,7 @@ class TankGame(object):
         self.player1_tank = PlayerTank(1)
         self.player2_tank = PlayerTank(2)
         self.player_tank_group = pygame.sprite.Group()
+
     # 展示开始菜单
     def __startMenu(self):
         # 初始化
@@ -44,6 +46,7 @@ class TankGame(object):
         # 选择坦克
         if self.menu.rect.y == SCREEN_RECT.y:
             self.menu.select()
+
     # 画出所有图片
     def __drawAll(self):
         # 设置游戏背景
@@ -77,11 +80,13 @@ class TankGame(object):
         # 画所有道具
         props_group.update()
         props_group.draw(screen)
+
     @staticmethod
     def __killAll(group):
         for g in group:
             g.kill()
         group.empty()
+
     # 碰撞检测
     def __check_collision(self):
         # 碰撞
@@ -162,6 +167,7 @@ class TankGame(object):
                             props.play()
                             props_group.remove(prop)
                             break
+
     # 地图关卡切换
     def __level(self, l=1):
         self.level += l
@@ -197,6 +203,7 @@ class TankGame(object):
             tanks_group.add(enemyTank)
 
         self.gameState = GAME_STATE['GAME_INIT']
+
     # 游戏结束
     def __game_over(self):
         screen.fill((0, 0, 0))
@@ -207,6 +214,7 @@ class TankGame(object):
         if self.overY < SCREEN_HEIGHT // 2 - 150:
             self.gameState = GAME_STATE['GAME_MENU']
             self.overY = 640
+
     # 游戏状态监听
     def _state_handler(self):
         if self.gameState == GAME_STATE['GAME_MENU']:
@@ -236,6 +244,7 @@ class TankGame(object):
         elif self.gameState == GAME_STATE['GAME_WIN']:
             # 游戏胜利进入下一关
             self.__level()
+
     # 游戏事件监听
     def __event_handler(self):
         for e in pygame.event.get():
@@ -267,6 +276,7 @@ class TankGame(object):
                         if e.key == pygame.K_UP or e.key == pygame.K_DOWN or e.key == \
                                 pygame.K_LEFT or e.key == pygame.K_RIGHT:
                             self.player2_tank.isMoving = False
+
     # 按键检测
     def __KeyDown_handler(self):
         key = pygame.key.get_pressed()
@@ -328,6 +338,7 @@ class TankGame(object):
                 self.__level()
             elif key[pygame.K_p]:
                 self.__level(-1)
+
     # 游戏循环
     def start_game(self):
         while True:
